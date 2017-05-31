@@ -4,9 +4,11 @@ A Digital Brewery tracker for Craftsmanship
 ## Use Cases
 
 ### MVP
-- Allows one to store craft brewery's they have visited along with some notes about each.  
+- Allows one to store craft brewery's they have visited along with some notes about each.
 - Allows for multiple users.  
 - Allows users to search for brewery's by city or zipcode and includes displays notes from other users for a selected brewery.
+  - Assumptions
+    - This can list breweries not included by users.
 
 ### Nifty Extras (budget allowing)
 - Allows logged in users to chat with each other.
