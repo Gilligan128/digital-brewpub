@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Digital.BrewPub.Models.AccountViewModels
+namespace Digital.BrewPub.Models.Account
 {
     public class SendCodeViewModel
     {

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -9,9 +7,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Digital.BrewPub.Models;
 using Digital.BrewPub.Models.ManageViewModels;
-using Digital.BrewPub.Services;
+using Digital.BrewPub.Infrastructure.Notification;
 
-namespace Digital.BrewPub.Controllers
+namespace Digital.BrewPub.Features.Manage
 {
     [Authorize]
     public class ManageController : Controller

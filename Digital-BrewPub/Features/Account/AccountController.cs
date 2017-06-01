@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -10,11 +8,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Digital.BrewPub.Models;
-using Digital.BrewPub.Models.AccountViewModels;
-using Digital.BrewPub.Services;
-using Digital_BrewPub.Controllers;
+using Digital.BrewPub.Models.Account;
+using Digital.BrewPub.Features.Home;
+using Digital.BrewPub.Infrastructure.Notification;
 
-namespace Digital.BrewPub.Controllers
+namespace Digital.BrewPub.Features.Account
 {
     [Authorize]
     public class AccountController : Controller

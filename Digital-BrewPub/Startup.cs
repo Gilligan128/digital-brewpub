@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Digital.BrewPub.Data;
 using Digital.BrewPub.Models;
-using Digital.BrewPub.Services;
+using Digital.BrewPub.Infrastructure.Notification;
 
 namespace Digital.BrewPub
 {
@@ -47,11 +43,13 @@ namespace Digital.BrewPub
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc();
+            services.AddMvc()
+                .AddFeatureFolders();
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Digital.BrewPub;
 using Microsoft.AspNetCore.Hosting;
 
-namespace Digital_BrewPub
+namespace DigitalBrewPub
 {
     public class Program
     {

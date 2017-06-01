@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Digital.BrewPub.Services
+namespace Digital.BrewPub.Infrastructure.Notification
 {
     public interface ISmsSender
     {
