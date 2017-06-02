@@ -46,5 +46,10 @@ A Digital Brewery tracker for Craftsmanship
    - Ideally they would be persisted so I can see historical data.
   
    
-    
+   # Developer Setup
+   
+   ## Prerequisites
+   - Dotnet CLI
+   - SQL Server 2016 with a database named "Digital.BrewPub"
+   - ASPNET_CORE_ENVIRONMENT variable set to "Development" 
    
