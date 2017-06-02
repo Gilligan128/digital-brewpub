@@ -5,9 +5,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Digital.BrewPub.Models;
-using Digital.BrewPub.Models.ManageViewModels;
 using Digital.BrewPub.Infrastructure.Notification;
+using Digital.BrewPub.Features.Shared;
 
 namespace Digital.BrewPub.Features.Manage
 {

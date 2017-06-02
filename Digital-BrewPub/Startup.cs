@@ -6,8 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Digital.BrewPub.Data;
-using Digital.BrewPub.Models;
 using Digital.BrewPub.Infrastructure.Notification;
+using Digital.BrewPub.Features.Shared;
 
 namespace Digital.BrewPub
 {

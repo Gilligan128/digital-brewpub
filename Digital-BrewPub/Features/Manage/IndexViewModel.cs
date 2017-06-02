@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
-namespace Digital.BrewPub.Models.ManageViewModels
+namespace Digital.BrewPub.Features.Manage
 {
     public class IndexViewModel
     {

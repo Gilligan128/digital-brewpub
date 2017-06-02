@@ -1,16 +1,15 @@
 ﻿using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Digital.BrewPub.Features.Home;
+using Digital.BrewPub.Features.Shared;
+using Digital.BrewPub.Infrastructure.Notification;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Digital.BrewPub.Models;
-using Digital.BrewPub.Models.Account;
-using Digital.BrewPub.Features.Home;
-using Digital.BrewPub.Infrastructure.Notification;
 
 namespace Digital.BrewPub.Features.Account
 {

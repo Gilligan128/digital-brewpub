@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Digital.BrewPub.Models.Account
+namespace Digital.BrewPub.Features.Account
 {
     public class RegisterViewModel
     {

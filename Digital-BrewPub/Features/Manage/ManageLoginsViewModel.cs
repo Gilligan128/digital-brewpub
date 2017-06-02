@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Identity;
 
-namespace Digital.BrewPub.Models.ManageViewModels
+namespace Digital.BrewPub.Features.Manage
 {
     public class ManageLoginsViewModel
     {
