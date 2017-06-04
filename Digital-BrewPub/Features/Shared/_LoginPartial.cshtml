@@ -18,8 +18,7 @@
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li><a asp-area="" asp-controller="Account" asp-action="Register">Register</a></li>
-        <li><a asp-area="" asp-controller="Account" asp-action="Login">Log in</a></li>
-    </ul>
+<ul class="nav navbar-nav navbar-right">
+    <li><form asp-controller="Account" asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal"><button type="submit" class="btn btn-link navbar-btn navbar-link" name="provider" value="Google" title="Log in using your Google account">Log In</button></form></li>
+</ul>
 }
