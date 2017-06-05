@@ -21,34 +21,23 @@ namespace Digital.BrewPub.Test.Slow
        [Fact]
        public async Task AuthenticatesUserWithGoogle()
         {
-            ResetDatabase();
 
-            var server = new TestServer(new WebHostBuilder().UseStartup<Startup>());
-            var client = server.CreateClient();
-            HttpContent content = new FormUrlEncodedContent(new Dictionary<string, string>() {
+            using(var fixture = new FunctionalTestFixture())
+            {
+                var client = fixture.Client;
+                HttpContent content = new FormUrlEncodedContent(new Dictionary<string, string>() {
                 { "provider", "Google" }
-            });
+                });
 
-            var response = await client.PostAsync("/Account/ExternalLogin", content);
-            var responseContent = await response.Content.ReadAsStringAsync();
+                var response = await client.PostAsync("/Account/ExternalLogin", content);
+                var responseContent = await response.Content.ReadAsStringAsync();
 
-            response.StatusCode.Should().Be(HttpStatusCode.Redirect);
-            response.Headers.Location.AbsoluteUri.Contains("https://accounts.google.com/o/oauth2/auth?response_type=code").Should().BeTrue();
+                response.StatusCode.Should().Be(HttpStatusCode.Redirect);
+                response.Headers.Location.AbsoluteUri.Contains("https://accounts.google.com/o/oauth2/auth?response_type=code").Should().BeTrue();
 
-        }
-
-        private static void ResetDatabase()
-        {
-            var checkpoint = new Checkpoint()
-            {
-                TablesToIgnore = new string[] { "_EFMigrationsHistory" }
-            };
-            var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-            using (var dbConnection = new SqlConnection(config["ConnectionStrings:DefaultConnection"]))
-            {
-                dbConnection.Open();
-                checkpoint.Reset(dbConnection);
             }
+          
         }
+
     }
 }

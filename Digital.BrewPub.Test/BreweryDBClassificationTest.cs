@@ -19,7 +19,7 @@ namespace Digital.BrewPub.Test
             var response = await client.GetAsync("http://api.brewerydb.com/v2/locations/?key=2ae879589f6c37f97e97f56779bcd0fc&locality=Detroit");
             var responseContent = await response.Content.ReadAsStringAsync();
 
-            responseContent.Should().BeEmpty();
+            responseContent.Should().NotBeEmpty();
         }
     }
 }
