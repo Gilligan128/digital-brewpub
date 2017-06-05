@@ -21,7 +21,7 @@ namespace Digital.BrewPub.Test.Slow
        [Fact]
        public async Task AuthenticatesUserWithGoogle()
         {
-            resetDatabase();
+            ResetDatabase();
 
             var server = new TestServer(new WebHostBuilder().UseStartup<Startup>());
             var client = server.CreateClient();
@@ -37,7 +37,7 @@ namespace Digital.BrewPub.Test.Slow
 
         }
 
-        private static void resetDatabase()
+        private static void ResetDatabase()
         {
             var checkpoint = new Checkpoint()
             {
