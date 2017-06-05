@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Digital.BrewPub.Data;
 using Digital.BrewPub.Infrastructure.Notification;
 using Digital.BrewPub.Features.Shared;
+using Digital.BrewPub.Features.Brewery;
 
 namespace Digital.BrewPub
 {
@@ -50,6 +51,7 @@ namespace Digital.BrewPub
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
 
+            services.AddScoped<Gateway<BrewerySearchRequest, BrewerySearchResult>, BreweryDBSearchGateway>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

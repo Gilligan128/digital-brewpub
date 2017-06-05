@@ -1,0 +1,14 @@
+﻿@using Digital.BrewPub.Features.Brewery
+@model BrewerySearchResult.Brewery[]
+
+<h2>Breweries in Detroit</h2>
+<ul>
+    @foreach(var brewery in Model)
+    {
+        <li>
+            <h3>@brewery.Name</h3>
+            <h4>@brewery.StreetAddress</h4>
+        </li>
+    }
+</ul>
+
