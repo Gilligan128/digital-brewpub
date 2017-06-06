@@ -25,13 +25,14 @@ namespace Digital.BrewPub.Features.Brewery
             {
                 BreweryNames = brewerySearchResults.Breweries.Select(brewery => brewery.Name).ToArray()
             });
+
             var brewerySearchViewModel = new BrewerySearchViewModel
             {
                 Breweries = brewerySearchResults.Breweries.Select(brewery => new BrewerySearchViewModel.Brewery
                 {
                     Name = brewery.Name,
                     StreetAddress = brewery.StreetAddress,
-                    Notes = notes.Notes
+                    Notes = notes.Notes.Where(n => n.Brewery.Equals(brewery.Name)).ToArray()
                 }).ToArray()
             };
             return View(brewerySearchViewModel);
