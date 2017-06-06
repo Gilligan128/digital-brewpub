@@ -17,14 +17,19 @@ namespace Digital.BrewPub.Features.Brewery
         {
             public Brewery()
             {   
-                Notes = new NotesByBreweryResult.Note[] { };
+                Notes = new Note[] { };
             }
 
             public string Name { get; set; }
             public string StreetAddress { get; set; }
-            public NotesByBreweryResult.Note[] Notes { get; set; }
+            public Note[] Notes { get; set; }
 
-           
+            public class Note {
+
+                public bool IsEditable { get; set; }
+                public string Text { get;  set; }
+            }
+
         }
     }
 }

@@ -32,7 +32,11 @@ namespace Digital.BrewPub.Features.Brewery
                 {
                     Name = brewery.Name,
                     StreetAddress = brewery.StreetAddress,
-                    Notes = notes.Notes.Where(n => n.Brewery.Equals(brewery.Name)).ToArray()
+                    Notes = notes.Notes.Where(n => n.Brewery.Equals(brewery.Name)).Select(n => new BrewerySearchViewModel.Brewery.Note
+                    {
+                        IsEditable = false,
+                        Text = n.Text
+                    }).ToArray()
                 }).ToArray()
             };
             return View(brewerySearchViewModel);

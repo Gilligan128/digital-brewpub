@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Digital.BrewPub.Data;
+using Digital.BrewPub.Features.Brewery;
+using Digital.BrewPub.Features.Note;
 using FluentAssertions;
 using Xunit;
 
@@ -30,9 +33,13 @@ namespace Digital.BrewPub.Test.Slow.Brewery
         {
             using (var fixture = new FunctionalTestFixture())
             {
-                //add notes through the backend.
-                //get the list of breweries
-                //see if the Brewery has the notes.
+                fixture.DbContext.Notes.Add(new Note { Id = Guid.NewGuid(), Text = "I love it", Brewery = "Brew Detroit" });
+                fixture.DbContext.SaveChanges();
+
+                var searchResponse = await fixture.Client.GetAsync("/Brewery/Search");
+                var searchContent = await searchResponse.GetModelAsync<BrewerySearchViewModel>();
+
+                searchContent.Breweries[0].Notes[0].Text.Should().Be("I love it");
             }
         }
     

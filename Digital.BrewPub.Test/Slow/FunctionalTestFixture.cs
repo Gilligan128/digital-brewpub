@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.Extensions.DependencyInjection;
 using Respawn;
+using Digital.BrewPub.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Digital.BrewPub.Test.Slow
 {
@@ -17,37 +19,49 @@ namespace Digital.BrewPub.Test.Slow
     {
         private TestServer server;
         public HttpClient Client { get; }
+        public ApplicationDbContext DbContext { get;  }
 
         public FunctionalTestFixture()
         {
-            server =  new TestServer(new WebHostBuilder()
+            server = new TestServer(new WebHostBuilder()
                  .ConfigureServices(services =>
                  {
                      services.AddMvc(options => options.Filters.Add(typeof(ConvertViewsToModelsFilter)));
                  })
                 .UseStartup<Startup>());
             Client = server.CreateClient();
-            
+
+            DbContext = createDbContext();
+
             ResetDatabase();
         }
 
         public void Dispose()
         {
             server.Dispose();
+            DbContext.Dispose();
         }
 
-        private static void ResetDatabase()
+        private  void ResetDatabase()
         {
             var checkpoint = new Checkpoint()
             {
                 TablesToIgnore = new string[] { "_EFMigrationsHistory" }
             };
+
+            DbContext.Database.OpenConnection();
+            checkpoint.Reset(DbContext.Database.GetDbConnection());
+            DbContext.Database.CloseConnection();
+        }
+
+        private static ApplicationDbContext createDbContext()
+        {
             var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-            using (var dbConnection = new SqlConnection(config["ConnectionStrings:DefaultConnection"]))
-            {
-                dbConnection.Open();
-                checkpoint.Reset(dbConnection);
-            }
+            string connectionString = config["ConnectionStrings:DefaultConnection"];
+            var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseSqlServer(connectionString);
+            ApplicationDbContext applicationDbContext = new ApplicationDbContext(optionsBuilder.Options);
+            return applicationDbContext;
         }
     }
 }

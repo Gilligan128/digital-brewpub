@@ -8,7 +8,7 @@ namespace Digital.BrewPub.Test.Fast.Brewery
 {
     internal class StubbedBrewerySearchGateway : Gateway<BrewerySearchRequest, BrewerySearchResult>
     {
-        private ISet<BrewerySearchResult.Brewery> breweries = new HashSet<BrewerySearchResult.Brewery>();
+        private IList<BrewerySearchResult.Brewery> breweries = new List<BrewerySearchResult.Brewery>();
 
         public Task<BrewerySearchResult> HandleAsync(BrewerySearchRequest request)
         {
