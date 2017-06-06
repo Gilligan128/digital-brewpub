@@ -9,17 +9,32 @@ namespace Digital.BrewPub.Features.Brewery
 {
     public class BreweryController : Controller
     {
-        private Gateway<BrewerySearchRequest, BrewerySearchResult> searchHandler;
+        private readonly Gateway<BrewerySearchRequest, BrewerySearchResult> searchHandler;
+        private readonly HandleQuery<NotesByBreweryQuery, NotesByBreweryResult> notesForBreweriesQuery;
 
-        public BreweryController(Gateway<BrewerySearchRequest, BrewerySearchResult> searchGateway)
+        public BreweryController(Gateway<BrewerySearchRequest, BrewerySearchResult> searchGateway, HandleQuery<NotesByBreweryQuery, NotesByBreweryResult> notesForBreweriesQuery)
         {
             this.searchHandler = searchGateway;
+            this.notesForBreweriesQuery = notesForBreweriesQuery;
         }
 
         public async Task<IActionResult> Search()
         {
-            var brewerySearchResults = await searchHandler.HandleAsync(new BrewerySearchRequest()); // I broke YAGNI a bit for this iteration
-            return View(brewerySearchResults.Breweries);
+            var brewerySearchResults = await searchHandler.HandleAsync(new BrewerySearchRequest());
+            var notes = await notesForBreweriesQuery.HandleAsync(new NotesByBreweryQuery
+            {
+                BreweryNames = brewerySearchResults.Breweries.Select(brewery => brewery.Name).ToArray()
+            });
+            var brewerySearchViewModel = new BrewerySearchViewModel
+            {
+                Breweries = brewerySearchResults.Breweries.Select(brewery => new BrewerySearchViewModel.Brewery
+                {
+                    Name = brewery.Name,
+                    StreetAddress = brewery.StreetAddress,
+                    Notes = notes.Notes
+                }).ToArray()
+            };
+            return View(brewerySearchViewModel);
         }
     }
 }

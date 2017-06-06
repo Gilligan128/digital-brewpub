@@ -7,12 +7,7 @@ namespace Digital.BrewPub.Features.Brewery
 {
     public class BrewerySearchResult
     {
-        public BrewerySearchResult()
-        {
-            Breweries = new Brewery[] { };
-        }
-
-        public  Brewery[] Breweries { get; set; }
+        public Brewery[] Breweries { get; set; }
 
         public class Brewery
         {

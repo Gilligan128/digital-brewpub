@@ -1,9 +1,9 @@
 ﻿@using Digital.BrewPub.Features.Brewery
-@model BrewerySearchResult.Brewery[]
+@model BrewerySearchViewModel
 
 <h2>Breweries in Detroit</h2>
 <ul>
-    @foreach(var brewery in Model)
+    @foreach(var brewery in Model.Breweries)
     {
         <li>
             <h3>@brewery.Name</h3>
