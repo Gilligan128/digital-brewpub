@@ -34,7 +34,7 @@ namespace Digital.BrewPub.Features.Brewery
                     StreetAddress = brewery.StreetAddress,
                     Notes = notes.Notes.Where(n => n.Brewery.Equals(brewery.Name)).Select(n => new BrewerySearchViewModel.Brewery.Note
                     {
-                        IsEditable = false,
+                        IsEditable = n.AuthorId.Equals(User?.Identity?.Name),
                         Text = n.Text
                     }).ToArray()
                 }).ToArray()

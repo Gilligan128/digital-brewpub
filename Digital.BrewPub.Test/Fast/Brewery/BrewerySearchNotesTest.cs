@@ -1,7 +1,10 @@
 ﻿using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Digital.BrewPub.Features.Brewery;
 using FluentAssertions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Xunit;
 
 namespace Digital.BrewPub.Test.Fast.Brewery
@@ -108,6 +111,33 @@ namespace Digital.BrewPub.Test.Fast.Brewery
             var model = result.GetModel<BrewerySearchViewModel>();
 
             model.Breweries[0].Notes[0].IsEditable.Should().Be(false);
+        }
+
+        [Fact]
+        public async Task NotesShouldBeEditableWhenTheyAreAuthoredByCurrentUser()
+        {
+            stubbedBrewerySearchGateway.AddBrewery(new BrewerySearchResult.Brewery
+            {
+                Name = "Love Shack",
+                StreetAddress = "1234 Love Street"
+            });
+            const string loveShackNote = "I think this brewery is cool!";
+            stubbedNotesQueryHandler.AddNote(new NotesByBreweryResult.Note
+            {
+                Brewery = "Love Shack",
+                AuthorId = "cbernholdt",
+                Text = loveShackNote
+            });
+
+            var user = new System.Security.Claims.ClaimsPrincipal(new ClaimsIdentity(new Claim[] { new Claim(ClaimTypes.Name, "cbernholdt")}));
+            sut.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = user }
+            };
+            var result = await sut.Search();
+            var model = result.GetModel<BrewerySearchViewModel>();
+
+            model.Breweries[0].Notes[0].IsEditable.Should().Be(true);
         }
     }
 }
