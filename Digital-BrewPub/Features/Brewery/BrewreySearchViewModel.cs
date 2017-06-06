@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static Digital.BrewPub.Features.Brewery.NotesByBreweryResult;
 
 namespace Digital.BrewPub.Features.Brewery
 {
@@ -18,12 +17,12 @@ namespace Digital.BrewPub.Features.Brewery
         {
             public Brewery()
             {   
-                Notes = new Note[] { };
+                Notes = new NotesByBreweryResult.Note[] { };
             }
 
             public string Name { get; set; }
             public string StreetAddress { get; set; }
-            public Note[] Notes { get; set; }
+            public NotesByBreweryResult.Note[] Notes { get; set; }
 
            
         }

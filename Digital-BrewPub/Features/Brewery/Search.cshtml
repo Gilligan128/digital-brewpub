@@ -8,6 +8,11 @@
         <li>
             <h3>@brewery.Name</h3>
             <h4>@brewery.StreetAddress</h4>
+            <ul>
+                @foreach(var note in brewery.Notes){
+                    <li>@note.Text</li>
+                }
+            </ul>
         </li>
     }
 </ul>

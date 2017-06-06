@@ -52,6 +52,7 @@ namespace Digital.BrewPub
             services.AddTransient<ISmsSender, AuthMessageSender>();
 
             services.AddScoped<Gateway<BrewerySearchRequest, BrewerySearchResult>, BreweryDBSearchGateway>();
+            services.AddScoped<HandleQuery<NotesByBreweryQuery, NotesByBreweryResult>, DbNotesByBreweryQueryHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
