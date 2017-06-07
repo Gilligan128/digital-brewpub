@@ -7,14 +7,15 @@ using Xunit;
 
 namespace Digital.BrewPub.Test.Slow.Brewery
 {
+    [Collection("1")]
     public class SearchBreweryTest
     {
         //One can only run these tests up to 400 times a day, due to API limitations.
         [Fact]
         public async Task ListsDetroitBreweries()
         {
-           
-            using (var fixture = new FunctionalTestFixture())
+
+            using (var fixture = CreateFixture())
             {
                 var searchResponse = await fixture.Client.GetAsync("/Brewery/Search");
 
@@ -24,14 +25,25 @@ namespace Digital.BrewPub.Test.Slow.Brewery
             }
         }
 
+       
+
         [Fact]
         public async Task ListsNotesForABrewery()
         {
-            using (var fixture = new FunctionalTestFixture())
+            using (var fixture = CreateFixture())
             {
-                fixture.DbContext.Notes.Add(new Features.Note.Note {
-                    Id = Guid.NewGuid(), Text = "I love it", Brewery = "Brew Detroit" , AuthorId="cbernholdt"});
-                fixture.DbContext.SaveChanges();
+                fixture.WithinDbContext(dbContext =>
+                {
+                    dbContext.Notes.Add(new Features.Note.Note
+                    {
+                        Id = Guid.NewGuid(),
+                        Text = "I love it",
+                        Brewery = "Brew Detroit",
+                        AuthorId = "cbernholdt"
+                    });
+                    dbContext.SaveChanges();
+                });
+               
 
                 var searchResponse = await fixture.Client.GetAsync("/Brewery/Search");
                 var searchContent = await searchResponse.GetModelAsync<BrewerySearchViewModel>();
@@ -40,6 +52,11 @@ namespace Digital.BrewPub.Test.Slow.Brewery
                 searchContent.Breweries[0].Notes[0].Text.Should().Be("I love it");
             }
         }
-    
+
+        private static FunctionalTestFixture CreateFixture()
+        {
+            return new FunctionalTestFixture();
+        }
+
     }
 }

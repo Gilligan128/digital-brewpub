@@ -23,13 +23,13 @@ namespace Digital.BrewPub.Test.Fast.Note
        
 
         [Fact]
-        public async Task EnthusiastCanMakeNewNoteWithTextForBrewery()
+        public void EnthusiastCanMakeNewNoteWithTextForBrewery()
         {
             using (ApplicationDbContext appDbContext = createUnitTestableDbContext())
             {
                 var sut = new NoteController(appDbContext);
 
-                await MakeNoteForLoveShackScenario(sut);
+                MakeNoteForLoveShackScenario(sut);
 
                 var note = FindLoveShackNote(appDbContext);
                 note.Text.Should().Be(MakeNoteForLoveShackScenarioData.NoteText);
@@ -38,7 +38,7 @@ namespace Digital.BrewPub.Test.Fast.Note
 
 
         [Fact]
-        public async Task NotesKnowWhoMadeThem()
+        public void NotesKnowWhoMadeThem()
         {
             using (ApplicationDbContext appDbContext = createUnitTestableDbContext())
             {
@@ -46,7 +46,7 @@ namespace Digital.BrewPub.Test.Fast.Note
                 const string username = "cbernholdt";
                 sut.ControllerContext = createContextForUser(username);
 
-                await MakeNoteForLoveShackScenario(sut);
+                MakeNoteForLoveShackScenario(sut);
                 
                 var note = FindLoveShackNote(appDbContext);
                 note.AuthorId.Should().Be(username);
@@ -62,11 +62,11 @@ namespace Digital.BrewPub.Test.Fast.Note
             };
         }
 
-        private static async Task MakeNoteForLoveShackScenario(NoteController sut)
+        private static  void MakeNoteForLoveShackScenario(NoteController sut)
         {
-            var result = await sut.Make(new NoteController.MakeInput
+            var result =  sut.Post(new NoteController.NotePostInput
             {
-                Id = MakeNoteForLoveShackScenarioData.BreweryName,
+                Brewery = MakeNoteForLoveShackScenarioData.BreweryName,
                 Text = MakeNoteForLoveShackScenarioData.NoteText
             });
         }

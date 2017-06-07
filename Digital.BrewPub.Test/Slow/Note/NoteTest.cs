@@ -7,30 +7,35 @@ using Digital.BrewPub.Features.Note;
 using System.Threading.Tasks;
 using System.Linq;
 using FluentAssertions;
+using Xunit.Abstractions;
 
 namespace Digital.BrewPub.Test.Slow.Note
 {
+    [Collection("1")]
     public class NoteTest
     {
+
         [Fact]
         public async Task EnthusiastsMakeNotes()
         {
-            using(var fixture = new FunctionalTestFixture())
+            using (var fixture = new FunctionalTestFixture())
             {
                 IEnumerable<KeyValuePair<string, string>> formValues = new Dictionary<string, string>()
                 {
-                    {nameof(NoteController.MakeInput.Text), "I love it" }
+                    {nameof(NoteController.NotePostInput.Text), "I love it" }
                 };
                 System.Net.Http.HttpContent content = new FormUrlEncodedContent(formValues);
 
-                var response = await fixture.Client.PostAsync("/Note/Make/Love Shack", content);
+                var response = await fixture.Client.PostAsync("/Brewery/Note/Love Shack", content);
+                var responseContent = await response.Content.ReadAsStringAsync();
 
-                using (var tx = fixture.DbContext.Database.BeginTransaction())
+
+                fixture.WithinDbContext(dbContext =>
                 {
-                    var note = fixture.DbContext.Notes.First(n => n.Brewery.Equals("Love Shack"));
+                    Features.Note.Note[] notes = dbContext.Notes.ToArray();
+                    var note = notes.First(n => n.Brewery.Equals("Love Shack"));
                     note.Text.Should().Be("I love it");
-                }
-               
+                });
             }
         }
     }

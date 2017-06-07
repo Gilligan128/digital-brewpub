@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ namespace Digital.BrewPub.Infrastructure.Transactions
 
         public void OnActionExecuted(ActionExecutedContext context)
         {
+
             try
             {
                 if (context.Exception != null && !context.ExceptionHandled )

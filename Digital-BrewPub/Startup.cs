@@ -45,10 +45,7 @@ namespace Digital.BrewPub
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc(options =>
-            {
-                options.Filters.Add(typeof(TransactionalActionFilter<ApplicationDbContext>));
-            })
+            services.AddMvc(options => options.Filters.Add(typeof(TransactionalActionFilter<ApplicationDbContext>)))
                 .AddFeatureFolders();
 
             ConfigureApplicationServices(services);

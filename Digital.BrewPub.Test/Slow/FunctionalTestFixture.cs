@@ -1,18 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.IO;
 using System.Net.Http;
-using System.Text;
+using Digital.BrewPub.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.Extensions.DependencyInjection;
 using Respawn;
-using Digital.BrewPub.Data;
-using Microsoft.EntityFrameworkCore;
-using Digital.BrewPub.Infrastructure.Transactions;
 
 namespace Digital.BrewPub.Test.Slow
 {
@@ -20,8 +14,8 @@ namespace Digital.BrewPub.Test.Slow
     {
         private TestServer server;
         public HttpClient Client { get; }
-        public ApplicationDbContext DbContext { get;  }
 
+    
         public FunctionalTestFixture()
         {
             server = new TestServer(new WebHostBuilder()
@@ -35,15 +29,20 @@ namespace Digital.BrewPub.Test.Slow
                 .UseStartup<Startup>());
             Client = server.CreateClient();
 
-            DbContext = createDbContext();
-
             ResetDatabase();
+        }
+
+        public void WithinDbContext(Action<ApplicationDbContext> action)
+        {
+            using (var appDbContext = createDbContext())
+            {
+                action(appDbContext);
+            };
         }
 
         public void Dispose()
         {
             server.Dispose();
-            DbContext.Dispose();
         }
 
         private  void ResetDatabase()
@@ -53,12 +52,17 @@ namespace Digital.BrewPub.Test.Slow
                 TablesToIgnore = new string[] { "__EFMigrationsHistory" }
             };
 
-            DbContext.Database.OpenConnection();
-            checkpoint.Reset(DbContext.Database.GetDbConnection());
-            DbContext.Database.CloseConnection();
+            WithinDbContext(dbContext =>
+            {
+                dbContext.Database.Migrate();
+                dbContext.Database.OpenConnection();
+                checkpoint.Reset(dbContext.Database.GetDbConnection());
+                dbContext.Database.CloseConnection();
+            });
+           
         }
 
-        private static ApplicationDbContext createDbContext()
+        private  ApplicationDbContext createDbContext()
         {
             var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
             string connectionString = config["ConnectionStrings:DefaultConnection"];

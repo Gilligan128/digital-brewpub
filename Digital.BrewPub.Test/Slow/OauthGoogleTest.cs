@@ -16,6 +16,7 @@ using Xunit;
 
 namespace Digital.BrewPub.Test.Slow
 {
+    [Collection("1")]
     public class OauthGoogleTest
     {
        [Fact]
