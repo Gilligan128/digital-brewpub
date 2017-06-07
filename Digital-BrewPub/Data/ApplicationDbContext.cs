@@ -24,7 +24,10 @@ namespace Digital.BrewPub.Data
             // Add your customizations after calling base.OnModelCreating(builder);
 
             builder.Entity<Note>().HasKey(x => x.Id);
-            
+            builder.Entity<Note>().Property(x => x.AuthorId).IsRequired();
+            builder.Entity<Note>().Property(x => x.Brewery).IsRequired().HasMaxLength(50);
+            builder.Entity<Note>().HasIndex(n => n.Brewery);
+
         }
 
         public DbSet<Note> Notes

@@ -7,6 +7,11 @@ namespace Digital.BrewPub.Features.Note
 {
     public class Note
     {
+        public Note()
+        {
+            Id = Guid.Empty;
+        }
+
         public Guid Id { get; set; }
 
         public String Brewery { get; set; }

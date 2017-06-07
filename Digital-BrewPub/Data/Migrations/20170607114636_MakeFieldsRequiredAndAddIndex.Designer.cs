@@ -5,12 +5,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Digital.BrewPub.Data;
 
-namespace Digital.BBrewPub.Data.Migrations
+namespace Digital.BrewPub.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170607114636_MakeFieldsRequired")]
+    partial class MakeFieldsRequiredAndAddIndex
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -25,14 +26,11 @@ namespace Digital.BBrewPub.Data.Migrations
                         .IsRequired();
 
                     b.Property<string>("Brewery")
-                        .IsRequired()
-                        .HasMaxLength(50);
+                        .IsRequired();
 
                     b.Property<string>("Text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Brewery");
 
                     b.ToTable("Notes");
                 });

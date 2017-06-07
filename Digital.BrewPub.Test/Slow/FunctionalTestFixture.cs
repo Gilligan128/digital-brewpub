@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Respawn;
 using Digital.BrewPub.Data;
 using Microsoft.EntityFrameworkCore;
+using Digital.BrewPub.Infrastructure.Transactions;
 
 namespace Digital.BrewPub.Test.Slow
 {
@@ -26,7 +27,10 @@ namespace Digital.BrewPub.Test.Slow
             server = new TestServer(new WebHostBuilder()
                  .ConfigureServices(services =>
                  {
-                     services.AddMvc(options => options.Filters.Add(typeof(ConvertViewsToModelsFilter)));
+                     //Even though this says "AddMVC" and not "EnsureMVC" it actually is cumulative with the Startup AddMvc
+                     services.AddMvc(options => { 
+                         options.Filters.Add(typeof(ConvertViewsToModelsFilter));
+                         });
                  })
                 .UseStartup<Startup>());
             Client = server.CreateClient();
@@ -46,7 +50,7 @@ namespace Digital.BrewPub.Test.Slow
         {
             var checkpoint = new Checkpoint()
             {
-                TablesToIgnore = new string[] { "_EFMigrationsHistory" }
+                TablesToIgnore = new string[] { "__EFMigrationsHistory" }
             };
 
             DbContext.Database.OpenConnection();

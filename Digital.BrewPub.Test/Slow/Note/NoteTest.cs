@@ -25,8 +25,12 @@ namespace Digital.BrewPub.Test.Slow.Note
 
                 var response = await fixture.Client.PostAsync("/Note/Make/Love Shack", content);
 
-                var note = fixture.DbContext.Notes.First(n => n.Brewery.Equals("Love Shack"));
-                note.Text.Should().Be("I love it");
+                using (var tx = fixture.DbContext.Database.BeginTransaction())
+                {
+                    var note = fixture.DbContext.Notes.First(n => n.Brewery.Equals("Love Shack"));
+                    note.Text.Should().Be("I love it");
+                }
+               
             }
         }
     }

@@ -21,6 +21,7 @@ namespace Digital.BrewPub.Features.Brewery
                     .Select(note => new NotesByBreweryResult.Note
                     {
                         Brewery = note.Brewery,
+                        AuthorId = note.AuthorId,
                         Text = note.Text
                     });
                

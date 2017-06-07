@@ -29,12 +29,14 @@ namespace Digital.BrewPub.Test.Slow.Brewery
         {
             using (var fixture = new FunctionalTestFixture())
             {
-                fixture.DbContext.Notes.Add(new Features.Note.Note { Id = Guid.NewGuid(), Text = "I love it", Brewery = "Brew Detroit" });
+                fixture.DbContext.Notes.Add(new Features.Note.Note {
+                    Id = Guid.NewGuid(), Text = "I love it", Brewery = "Brew Detroit" , AuthorId="cbernholdt"});
                 fixture.DbContext.SaveChanges();
 
                 var searchResponse = await fixture.Client.GetAsync("/Brewery/Search");
                 var searchContent = await searchResponse.GetModelAsync<BrewerySearchViewModel>();
 
+                searchResponse.EnsureSuccessStatusCode();
                 searchContent.Breweries[0].Notes[0].Text.Should().Be("I love it");
             }
         }

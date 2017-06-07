@@ -9,6 +9,7 @@ using Digital.BrewPub.Data;
 using Digital.BrewPub.Infrastructure.Notification;
 using Digital.BrewPub.Features.Shared;
 using Digital.BrewPub.Features.Brewery;
+using Digital.BrewPub.Infrastructure.Transactions;
 
 namespace Digital.BrewPub
 {
@@ -44,10 +45,17 @@ namespace Digital.BrewPub
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc()
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(typeof(TransactionalActionFilter<ApplicationDbContext>));
+            })
                 .AddFeatureFolders();
 
-            // Add application services.
+            ConfigureApplicationServices(services);
+        }
+
+        private static void ConfigureApplicationServices(IServiceCollection services)
+        {
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
 
