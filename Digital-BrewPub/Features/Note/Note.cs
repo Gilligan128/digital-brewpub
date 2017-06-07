@@ -13,5 +13,6 @@ namespace Digital.BrewPub.Features.Note
 
         public string Text { get; set; }
 
+        public string AuthorId { get; set; }
     }
 }

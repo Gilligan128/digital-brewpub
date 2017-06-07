@@ -22,6 +22,7 @@ namespace Digital.BrewPub.Features.Note
             {
                 Id = Guid.NewGuid(),
                 Brewery = form.Id,
+                AuthorId = User?.Identity?.Name ?? "system",
                 Text = form.Text
             });
             appDbContext.SaveChanges();
