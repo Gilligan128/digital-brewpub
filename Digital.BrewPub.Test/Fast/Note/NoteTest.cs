@@ -8,6 +8,7 @@ using Digital.BrewPub.Data;
 using Digital.BrewPub.Features.Note;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 
@@ -73,6 +74,27 @@ namespace Digital.BrewPub.Test.Fast.Note
 
                 var note = FindNoteForBrewery(appDbContext, "Note Brew");
                 note.Text.Should().Be("I updated this note");
+            }
+        }
+
+
+        [Fact]
+        public  void PostingNoteRedirectsToReturnUrl()
+        {
+            using (ApplicationDbContext appDbContext = createUnitTestableDbContext())
+            {
+                var sut = new NoteController(appDbContext);
+                const string returnUrl = "http://localhost:500/Search";
+
+                var result = (RedirectResult)sut.Post(new NoteController
+                    .NotePostInput
+                {
+                    Brewery = "LoveShack",
+                    Text = "whatever",
+                    ReturnUrl = returnUrl
+                });
+
+                result.Url.Should().Be(returnUrl);
             }
         }
 

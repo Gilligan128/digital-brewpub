@@ -144,5 +144,6 @@ namespace Digital.BrewPub.Test.Fast.Brewery
 
             model.Breweries[0].Notes[0].IsEditable.Should().Be(true);
         }
+
     }
 }
