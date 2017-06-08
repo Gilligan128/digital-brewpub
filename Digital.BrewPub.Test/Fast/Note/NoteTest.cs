@@ -53,6 +53,29 @@ namespace Digital.BrewPub.Test.Fast.Note
             }
         }
 
+        [Fact]
+        public void NotesCanBeUpdated()
+        {
+            using (ApplicationDbContext appDbContext = createUnitTestableDbContext())
+            {
+                var sut = new NoteController(appDbContext);
+                appDbContext.Notes.Add(new Features.Note.Note
+                {
+                    Id = Guid.NewGuid(),
+                    Brewery = "Note Brew",
+                    AuthorId = "cbernholdt",
+                    Text = "old text"
+                });
+                appDbContext.SaveChanges();
+                sut.ControllerContext = createContextForUser("cbernholdt");
+
+                sut.Post(new NoteController.NotePostInput { Brewery = "Note Brew", Text = "I updated this note" });
+
+                var note = FindNoteForBrewery(appDbContext, "Note Brew");
+                note.Text.Should().Be("I updated this note");
+            }
+        }
+
         private static Microsoft.AspNetCore.Mvc.ControllerContext createContextForUser(string username)
         {
             return new Microsoft.AspNetCore.Mvc.ControllerContext() {
@@ -73,13 +96,19 @@ namespace Digital.BrewPub.Test.Fast.Note
 
         private static Features.Note.Note FindLoveShackNote(ApplicationDbContext appDbContext)
         {
-            return appDbContext.Notes.First(n => n.Brewery.Equals(MakeNoteForLoveShackScenarioData.BreweryName));
+            return FindNoteForBrewery(appDbContext, MakeNoteForLoveShackScenarioData.BreweryName);
+        }
+
+        private static Features.Note.Note FindNoteForBrewery(ApplicationDbContext appDbContext, string breweryName)
+        {
+            Features.Note.Note[] notes = appDbContext.Notes.ToArray();
+            return notes.Single(n => n.Brewery.Equals(breweryName));
         }
 
         private ApplicationDbContext createUnitTestableDbContext()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                            .UseInMemoryDatabase(nameof(EnthusiastCanMakeNewNoteWithTextForBrewery));
+                            .UseInMemoryDatabase("Digital.BrewPub."+ Guid.NewGuid());
             ApplicationDbContext applicationDbContext = new ApplicationDbContext(options.Options);
             return applicationDbContext;
         }

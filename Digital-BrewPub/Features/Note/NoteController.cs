@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Digital.BrewPub.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace Digital.BrewPub.Features.Note
 {
+   
     public class NoteController : Controller
     {
         private ApplicationDbContext appDbContext;
@@ -21,13 +23,22 @@ namespace Digital.BrewPub.Features.Note
         [HttpPost]
         public IActionResult Post(NotePostInput form)
         {
-            appDbContext.Notes.Add(new Note
+            string currentUser = User?.Identity?.Name ?? "system";
+            var existingNote = appDbContext.Notes.SingleOrDefault(x => x.Brewery.Equals(form.Brewery) && x.AuthorId.Equals(currentUser));
+            if (existingNote == null)
             {
-                Id = Guid.NewGuid(),
-                Brewery = form.Brewery,
-                AuthorId = User?.Identity?.Name ?? "system",
-                Text = form.Text
-            });
+                appDbContext.Notes.Add(new Note
+                {
+                    Id = Guid.NewGuid(),
+                    Brewery = form.Brewery,
+                    AuthorId = currentUser,
+                    Text = form.Text
+                });
+            }
+            else
+            {
+                existingNote.Text = form.Text;
+            }
             appDbContext.SaveChanges();
             return  Redirect("/");
         }

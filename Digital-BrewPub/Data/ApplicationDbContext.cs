@@ -30,6 +30,7 @@ namespace Digital.BrewPub.Data
 
         }
 
+
         public DbSet<Note> Notes
         {
             get
