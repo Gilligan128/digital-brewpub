@@ -40,7 +40,7 @@ namespace Digital.BrewPub.Features.Note
                 existingNote.Text = form.Text;
             }
             appDbContext.SaveChanges();
-            return  Redirect("/");
+            return  Redirect(string.IsNullOrEmpty(form.ReturnUrl) ? "/" : form.ReturnUrl);
         }
 
         [Route("Brewery/Note/{brewery}")]
@@ -54,6 +54,7 @@ namespace Digital.BrewPub.Features.Note
         {
             public string Text { get; set; }
             public string Brewery { get; set; }
+            public string ReturnUrl { get; set; }
         }
     }
 }

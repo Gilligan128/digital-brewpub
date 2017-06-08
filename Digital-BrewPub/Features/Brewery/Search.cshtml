@@ -45,6 +45,7 @@
                                 <h4 class="modal-title">Make a Note about @brewery.Name</h4>
                             </div>
                             <div class="modal-body">
+                                <input type="hidden" name="ReturnUrl" value="@Html.ViewContext.HttpContext.Request.Path" />
                                 <div class="form-group">
                                     <textarea class="form-control" id="Text" name="Text">@brewery.Notes.Where(x => x.IsEditable).Select(n => n.Text).FirstOrDefault()</textarea>
                                 </div>
