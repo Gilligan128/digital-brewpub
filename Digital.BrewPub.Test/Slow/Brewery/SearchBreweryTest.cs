@@ -14,7 +14,6 @@ namespace Digital.BrewPub.Test.Slow.Brewery
         [Fact]
         public async Task ListsDetroitBreweries()
         {
-
             using (var fixture = CreateFixture())
             {
                 var searchResponse = await fixture.Client.GetAsync("/Brewery/Search");

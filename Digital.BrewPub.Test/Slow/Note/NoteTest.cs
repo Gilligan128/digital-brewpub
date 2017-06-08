@@ -11,14 +11,13 @@ using Xunit.Abstractions;
 
 namespace Digital.BrewPub.Test.Slow.Note
 {
-    [Collection("1")]
     public class NoteTest
     {
 
         [Fact]
         public async Task EnthusiastsMakeNotes()
         {
-            using (var fixture = new FunctionalTestFixture())
+            using (var fixture = new FunctionalTestFixture(nameof(NoteTest)))
             {
                 IEnumerable<KeyValuePair<string, string>> formValues = new Dictionary<string, string>()
                 {

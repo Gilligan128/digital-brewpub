@@ -15,22 +15,34 @@ namespace Digital.BrewPub.Test.Slow
         private TestServer server;
         public HttpClient Client { get; }
 
-    
-        public FunctionalTestFixture()
+        private IConfigurationRoot config;
+        private readonly string databaseName;
+
+        public FunctionalTestFixture() : this("Digital.BrewPub")
         {
+
+        }
+
+        public FunctionalTestFixture(string databaseName)
+        {
+            this.databaseName = databaseName;
+            config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
             server = new TestServer(new WebHostBuilder()
                  .ConfigureServices(services =>
                  {
                      //Even though this says "AddMVC" and not "EnsureMVC" it actually is cumulative with the Startup AddMvc
-                     services.AddMvc(options => { 
+                     services.AddMvc(options =>
+                     {
                          options.Filters.Add(typeof(ConvertViewsToModelsFilter));
-                         });
+                     });
+                     services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(GetConnectionString()));
                  })
                 .UseStartup<Startup>());
             Client = server.CreateClient();
 
             ResetDatabase();
         }
+
 
         public void WithinDbContext(Action<ApplicationDbContext> action)
         {
@@ -64,12 +76,15 @@ namespace Digital.BrewPub.Test.Slow
 
         private  ApplicationDbContext createDbContext()
         {
-            var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-            string connectionString = config["ConnectionStrings:DefaultConnection"];
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseSqlServer(connectionString);
+                .UseSqlServer(GetConnectionString());
             ApplicationDbContext applicationDbContext = new ApplicationDbContext(optionsBuilder.Options);
             return applicationDbContext;
+        }
+
+        private string GetConnectionString()
+        {
+            return config.GetConnectionString("DefaultConnection").Replace("Digital.BrewPub", this.databaseName);
         }
     }
 }
