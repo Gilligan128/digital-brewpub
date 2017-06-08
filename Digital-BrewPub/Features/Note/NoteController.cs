@@ -43,6 +43,13 @@ namespace Digital.BrewPub.Features.Note
             return  Redirect("/");
         }
 
+        [Route("Brewery/Note/{brewery}")]
+        [HttpGet]
+        public IActionResult Post(string brewery)
+        {
+            return View(new NotePostInput { Brewery = brewery });
+        }
+
         public class NotePostInput
         {
             public string Text { get; set; }

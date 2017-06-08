@@ -3,17 +3,63 @@
 
 <h2>Breweries in Detroit</h2>
 <ul>
+    @{int breweryIndex = 0; }
     @foreach(var brewery in Model.Breweries)
     {
         <li>
-            <h3>@brewery.Name</h3>
-            <h4>@brewery.StreetAddress</h4>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <h3>@brewery.Name</h3>
+                        </div>
+                        <div class="col-md-5 col-md-offset-1 bottom">
+                            <h5><a class="btn btn-default" data-toggle="modal" data-target="#note-@brewery.Name.Replace(" ", "-")">Add Note</a></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h4>@brewery.StreetAddress</h4>  
             <ul>
                 @foreach(var note in brewery.Notes){
-                    <li>@note.Text</li>
+                    <li>
+                        @if (note.IsEditable)
+                        {
+                      
+                            <a class="btn" data-toggle="modal" data-target="#note-@brewery.Name.Replace(" ", "-")">@note.Text</a>
+                        }
+                        else
+                        {
+                            <p>@note.Text</p>
+
+                        }
+                    </li>
                 }
             </ul>
+            <div id="note-@brewery.Name.Replace(" ", "-")" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form asp-controller="Note" asp-action="Post" asp-route-brewery="@brewery.Name">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title">Make a Note about @brewery.Name</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <textarea class="form-control" id="Text" name="Text">@brewery.Notes.Where(x => x.IsEditable).Select(n => n.Text).FirstOrDefault()</textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </li>
+        breweryIndex++;
     }
 </ul>
+
 
