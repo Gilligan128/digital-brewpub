@@ -2,6 +2,6 @@
 {
     public class NotesByBreweryQuery
     {     
-        public string[] BreweryNames { get; set; }
+        public string[] BreweryKeys { get; set; }
     }
 }

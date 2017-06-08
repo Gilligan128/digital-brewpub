@@ -13,6 +13,7 @@ namespace Digital.BrewPub.Features.Brewery
         {
             public string Name { get; set; }
             public string StreetAddress { get; set; }
+            public string NaturalKey { get;  set; }
         }
     }
 }

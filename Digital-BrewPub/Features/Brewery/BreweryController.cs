@@ -23,16 +23,17 @@ namespace Digital.BrewPub.Features.Brewery
             var brewerySearchResults = await searchHandler.HandleAsync(new BrewerySearchRequest());
             var notes = await notesForBreweriesQuery.HandleAsync(new NotesByBreweryQuery
             {
-                BreweryNames = brewerySearchResults.Breweries.Select(brewery => brewery.Name).ToArray()
+                BreweryKeys = brewerySearchResults.Breweries.Select(brewery => brewery.NaturalKey).ToArray()
             });
 
             var brewerySearchViewModel = new BrewerySearchViewModel
             {
                 Breweries = brewerySearchResults.Breweries.Select(brewery => new BrewerySearchViewModel.Brewery
                 {
+                    NaturalKey = brewery.NaturalKey,
                     Name = brewery.Name,
                     StreetAddress = brewery.StreetAddress,
-                    Notes = notes.Notes.Where(n => n.Brewery.Equals(brewery.Name)).Select(n => new BrewerySearchViewModel.Brewery.Note
+                    Notes = notes.Notes.Where(n => n.Brewery.Equals(brewery.NaturalKey)).Select(n => new BrewerySearchViewModel.Brewery.Note
                     {
                         IsEditable = n.AuthorId.Equals(User?.Identity?.Name),
                         Text = n.Text

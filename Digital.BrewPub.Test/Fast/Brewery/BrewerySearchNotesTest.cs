@@ -41,11 +41,12 @@ namespace Digital.BrewPub.Test.Fast.Brewery
         {
             stubbedBrewerySearchGateway.AddBrewery(new BrewerySearchResult.Brewery
             {
+                NaturalKey = "LoveShack",
                 Name = "Love Shack",
                 StreetAddress = "1234 Love Street"
             });
             stubbedNotesQueryHandler.AddNote(new NotesByBreweryResult.Note {
-                Brewery = "Love Shack",
+                Brewery = "LoveShack",
                 Text = "I think this brewery is cool!"
             });
 
@@ -60,24 +61,26 @@ namespace Digital.BrewPub.Test.Fast.Brewery
         {
             stubbedBrewerySearchGateway.AddBrewery(new BrewerySearchResult.Brewery
             {
+                NaturalKey = "LoveShack",
                 Name = "Love Shack",
                 StreetAddress = "1234 Love Street"
             });
             stubbedBrewerySearchGateway.AddBrewery(new BrewerySearchResult.Brewery
             {
+                NaturalKey = "LikeShack",
                 Name = "Like Shack",
                 StreetAddress = "3078 Loveless Street"
             });
             const string loveShackNote = "I think this brewery is cool!";
             stubbedNotesQueryHandler.AddNote(new NotesByBreweryResult.Note
             {
-                Brewery = "Love Shack",
+                Brewery = "LoveShack",
                 Text = loveShackNote
             });
             const string likeShackNote = "This brewery is alright";
             stubbedNotesQueryHandler.AddNote(new NotesByBreweryResult.Note
             {
-                Brewery = "Like Shack",
+                Brewery = "LikeShack",
                 Text = likeShackNote
             });
 
@@ -96,13 +99,14 @@ namespace Digital.BrewPub.Test.Fast.Brewery
         {
             stubbedBrewerySearchGateway.AddBrewery(new BrewerySearchResult.Brewery
             {
+                NaturalKey = "LoveShack",
                 Name = "Love Shack",
                 StreetAddress = "1234 Love Street"
             });
             const string loveShackNote = "I think this brewery is cool!";
             stubbedNotesQueryHandler.AddNote(new NotesByBreweryResult.Note
             {
-                Brewery = "Love Shack",
+                Brewery = "LoveShack",
                 AuthorId = "cmoorebutz",
                 Text = loveShackNote
             });
@@ -118,13 +122,14 @@ namespace Digital.BrewPub.Test.Fast.Brewery
         {
             stubbedBrewerySearchGateway.AddBrewery(new BrewerySearchResult.Brewery
             {
+                NaturalKey = "LoveShack",
                 Name = "Love Shack",
                 StreetAddress = "1234 Love Street"
             });
             const string loveShackNote = "I think this brewery is cool!";
             stubbedNotesQueryHandler.AddNote(new NotesByBreweryResult.Note
             {
-                Brewery = "Love Shack",
+                Brewery = "LoveShack",
                 AuthorId = "cbernholdt",
                 Text = loveShackNote
             });

@@ -17,7 +17,7 @@ namespace Digital.BrewPub.Features.Brewery
 
         public Task<NotesByBreweryResult> HandleAsync(NotesByBreweryQuery query)
         {
-                var notes = dbContext.Notes.Where(note => query.BreweryNames.Contains(note.Brewery))
+                var notes = dbContext.Notes.Where(note => query.BreweryKeys.Contains(note.Brewery))
                     .Select(note => new NotesByBreweryResult.Note
                     {
                         Brewery = note.Brewery,

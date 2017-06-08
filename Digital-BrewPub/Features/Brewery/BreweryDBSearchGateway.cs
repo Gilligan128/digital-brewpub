@@ -21,7 +21,8 @@ namespace Digital.BrewPub.Features.Brewery
             var brewerySearchResult = new BrewerySearchResult
             {
                 Breweries = resultsAsJson.Data.Select(brewery => new BrewerySearchResult.Brewery {
-                    Name = brewery.Name,
+                    NaturalKey = (brewery.Brewery.Name ?? "").Replace(" ", ""),
+                    Name = brewery.Brewery.Name,
                     StreetAddress = brewery.StreetAddress
                 }
                 ).ToArray()
@@ -38,6 +39,12 @@ namespace Digital.BrewPub.Features.Brewery
         {
             public string Name { get;  set; }
             public string StreetAddress { get; set; }
+            public BreweryDBBrewery Brewery { get; set; }
+        }
+
+        private class BreweryDBBrewery
+        {
+            public string Name { get; set; }
         }
     }
 

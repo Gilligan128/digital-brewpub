@@ -37,7 +37,7 @@ namespace Digital.BrewPub.Test.Slow.Brewery
                     {
                         Id = Guid.NewGuid(),
                         Text = "I love it",
-                        Brewery = "Brew Detroit",
+                        Brewery = "BrewDetroit",
                         AuthorId = "cbernholdt"
                     });
                     dbContext.SaveChanges();
