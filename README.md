@@ -42,9 +42,7 @@ A Digital Brewery tracker for Craftsmanship
     - There are few thigns I feel should be in a default client architecture for a project. Historical data is one of them.
   - Metrics
     - Metrics is the other thing I believe belong in almost every client project.
-    - Will only be done time permitting as I am not familiar with the metric tooling for dotnet.
-    - Ideally they would be persisted so I can see historical data.
-  
+    - If this were for a client and it was feasible, I would recommend Application Insights for this app.
    
    # Developer Setup
    
