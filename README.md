@@ -27,8 +27,8 @@ A Digital Brewery tracker for Craftsmanship
   
  ## Architecture
   - Feature-Focusd
-   - One of the first things I will do is organize the project by features (Search, Manage-Pubs, Chat)instead of Models/Controllers/Views. I almost uniformly advocate for this on all projects.
-   - This will require a new viewengine, last I checked.
+    - One of the first things I will do is organize the project by features (Search, Manage-Pubs, Chat)instead of Models/Controllers/Views. I almost uniformly advocate for this on all projects.
+    - This will require a new viewengine, last I checked.
   - OAuth
     - I don't like managing logins and OAuth lets me focus on the strategic domain (well, er, there is kinda one)
   - Entity Framework
