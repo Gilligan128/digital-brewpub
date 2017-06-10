@@ -50,6 +50,14 @@ A Digital Brewery tracker for Craftsmanship
    
    ## Prerequisites
    - Dotnet CLI
-   - SQL Server 2016 with a database named "Digital.BrewPub"
+   - SQL Server 2016
    - ASPNET_CORE_ENVIRONMENT variable set to "Development" 
+   
+   ## Setup
+   On the Command Line:
+   - CD Digital-BrewPub
+   - dotnet restore
+   - CD Digital.BrewPub.Test
+   - dotnet test (this will build the database and migrate it)
+   - dotnet run
    
