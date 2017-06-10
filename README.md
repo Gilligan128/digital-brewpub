@@ -15,7 +15,7 @@ A Digital Brewery tracker for Craftsmanship
 
 ## Delivery Principles
 - Continuous Integration (with myself)
-  - simple build script to build and run the app. (do you want deployment capabilities?)
+  - Using dotnet cli to script building the app.
   - frequent commits
   - each commit will build and run the tests.
 - Test-driven Development
