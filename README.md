@@ -37,13 +37,13 @@ A Digital Brewery tracker for Craftsmanship
     - Another alternative which I have mastered is NHibernate, but where is the fun in that.
     - I will not be using repositories but will likely use stubbed query objects kept as siple as possible (meaning most filtering will be done in memory)
       that are tested by the Functional tests (or integration tests)
-    - I will leverage Entity Framework migrations if possible.
-  - SQL Server 2016. BEcause it supports temporal queries. 
-   - There are few thigns I feel should be in a default client architecture for a project. HIstorical data is one of them.
+    - I leverage Entity Framework migrations.
+  - SQL Server 2016. Because it supports temporal queries. 
+    - There are few thigns I feel should be in a default client architecture for a project. Historical data is one of them.
   - Metrics
-   - Metrics is the other thing I believe belong in almost every client project.
-   - Will only be done time permitting as I am not familiar with the metric tooling for dotnet.
-   - Ideally they would be persisted so I can see historical data.
+    - Metrics is the other thing I believe belong in almost every client project.
+    - Will only be done time permitting as I am not familiar with the metric tooling for dotnet.
+    - Ideally they would be persisted so I can see historical data.
   
    
    # Developer Setup
