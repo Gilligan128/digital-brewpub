@@ -8,54 +8,65 @@ using Xunit;
 namespace Digital.BrewPub.Test.Slow.Brewery
 {
     [Collection("1")]
-    public class SearchBreweryTest
+    public class SearchBreweryTest : IDisposable
     {
+        private FunctionalTestFixture fixture;
+
+        public SearchBreweryTest()
+        {
+            fixture = new FunctionalTestFixture();
+        }
+
+
         //One can only run these tests up to 400 times a day, due to API limitations.
         [Fact]
         public async Task ListsDetroitBreweries()
         {
-            using (var fixture = CreateFixture())
-            {
-                var searchResponse = await fixture.Client.GetAsync("/Brewery/Search");
+            var searchResponse = await fixture.Client.GetAsync("/Brewery/Search?SearchType=City&Term=Detroit");
+            var searchContent = await searchResponse.Content.ReadAsStringAsync();
 
-                searchResponse.StatusCode.Should().Be(HttpStatusCode.OK);
-                var searchContent = await searchResponse.Content.ReadAsStringAsync();
-                searchContent.Contains("Brew Detroit").Should().BeTrue();
-            }
+            searchResponse.EnsureSuccessStatusCode();
+            searchContent.Contains("Brew Detroit").Should().BeTrue();
         }
 
-       
+        [Fact]
+        public async Task ListsNothingForUnkownCity()
+        {
+            var searchResponse = await fixture.Client.GetAsync("/Brewery/Search?SearchType=City&Term=Philly");
+            var searchResponseContent = await searchResponse.GetModelAsync<BrewerySearchViewModel>();
+
+            searchResponse.EnsureSuccessStatusCode();
+            searchResponseContent.Breweries.Should().BeEmpty();
+        }
 
         [Fact]
         public async Task ListsNotesForABrewery()
         {
-            using (var fixture = CreateFixture())
+            
+            fixture.WithinDbContext(dbContext =>
             {
-                fixture.WithinDbContext(dbContext =>
+                dbContext.Notes.Add(new Features.Note.Note
                 {
-                    dbContext.Notes.Add(new Features.Note.Note
-                    {
-                        Id = Guid.NewGuid(),
-                        Text = "I love it",
-                        Brewery = "BrewDetroit",
-                        AuthorId = "cbernholdt"
-                    });
-                    dbContext.SaveChanges();
+                    Id = Guid.NewGuid(),
+                    Text = "I love it",
+                    Brewery = "BrewDetroit",
+                    AuthorId = "cbernholdt"
                 });
+                dbContext.SaveChanges();
+            });
                
 
-                var searchResponse = await fixture.Client.GetAsync("/Brewery/Search");
-                var searchContent = await searchResponse.GetModelAsync<BrewerySearchViewModel>();
+            var searchResponse = await fixture.Client.GetAsync("/Brewery/Search?SearchType=City&Term=Detroit");
+            var searchContent = await searchResponse.GetModelAsync<BrewerySearchViewModel>();
 
-                searchResponse.EnsureSuccessStatusCode();
-                searchContent.Breweries[0].Notes[0].Text.Should().Be("I love it");
-            }
+            searchResponse.EnsureSuccessStatusCode();
+            searchContent.Breweries[0].Notes[0].Text.Should().Be("I love it");
+ 
         }
 
-        private static FunctionalTestFixture CreateFixture()
+        public void Dispose()
         {
-            return new FunctionalTestFixture();
+            fixture.Dispose();
         }
-
     }
 }

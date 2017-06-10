@@ -7,5 +7,13 @@ namespace Digital.BrewPub.Features.Brewery
 {
     public class BrewerySearchRequest
     {
+        public string Term { get; set; }
+        public SearchType Type { get; set; }
+
+        public enum SearchType
+        {
+            City,
+            Zip
+        }
     }
 }

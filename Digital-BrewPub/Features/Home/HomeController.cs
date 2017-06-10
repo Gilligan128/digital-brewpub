@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Digital.BrewPub.Features.Brewery;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Digital.BrewPub.Features.Home
@@ -10,7 +11,7 @@ namespace Digital.BrewPub.Features.Home
     {
         public IActionResult Index()
         {
-            return View();
+            return View(new BrewerySearchRequest());
         }
 
         public IActionResult About()

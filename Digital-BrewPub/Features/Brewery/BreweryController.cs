@@ -18,9 +18,9 @@ namespace Digital.BrewPub.Features.Brewery
             this.notesForBreweriesQuery = notesForBreweriesQuery;
         }
 
-        public async Task<IActionResult> Search()
+        public async Task<IActionResult> Search(BrewerySearchRequest form)
         {
-            var brewerySearchResults = await searchHandler.HandleAsync(new BrewerySearchRequest());
+            var brewerySearchResults = await searchHandler.HandleAsync(form);
             var notes = await notesForBreweriesQuery.HandleAsync(new NotesByBreweryQuery
             {
                 BreweryKeys = brewerySearchResults.Breweries.Select(brewery => brewery.NaturalKey).ToArray()

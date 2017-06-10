@@ -37,9 +37,10 @@ namespace Digital.BrewPub.Test.Slow
                      });
                      services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(GetConnectionString()));
                  })
+                .UseKestrel()
                 .UseStartup<Startup>());
             Client = server.CreateClient();
-
+            
             ResetDatabase();
         }
 

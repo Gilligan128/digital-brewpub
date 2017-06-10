@@ -30,7 +30,7 @@ namespace Digital.BrewPub.Test.Fast.Brewery
                 StreetAddress = "1234 Love Street"
             });
            
-            var result = await sut.Search();
+            var result = await sut.Search(new BrewerySearchRequest());
             var model = result.GetModel<BrewerySearchViewModel>();
 
             model.Breweries[0].Notes.Should().BeEmpty();
@@ -50,7 +50,7 @@ namespace Digital.BrewPub.Test.Fast.Brewery
                 Text = "I think this brewery is cool!"
             });
 
-            var result = await sut.Search();
+            var result = await sut.Search(new BrewerySearchRequest());
             var model = result.GetModel<BrewerySearchViewModel>();
 
             model.Breweries[0].Notes[0].Text.Should().Be("I think this brewery is cool!");
@@ -85,7 +85,7 @@ namespace Digital.BrewPub.Test.Fast.Brewery
             });
 
 
-            var result = await sut.Search();
+            var result = await sut.Search(new BrewerySearchRequest());
             var model = result.GetModel<BrewerySearchViewModel>();
 
             var sortedBreweries = model.Breweries.OrderBy(b => b.Name).ToArray();
@@ -111,7 +111,7 @@ namespace Digital.BrewPub.Test.Fast.Brewery
                 Text = loveShackNote
             });
 
-            var result = await sut.Search();
+            var result = await sut.Search(new BrewerySearchRequest());
             var model = result.GetModel<BrewerySearchViewModel>();
 
             model.Breweries[0].Notes[0].IsEditable.Should().Be(false);
@@ -139,7 +139,7 @@ namespace Digital.BrewPub.Test.Fast.Brewery
             {
                 HttpContext = new DefaultHttpContext() { User = user }
             };
-            var result = await sut.Search();
+            var result = await sut.Search(new BrewerySearchRequest());
             var model = result.GetModel<BrewerySearchViewModel>();
 
             model.Breweries[0].Notes[0].IsEditable.Should().Be(true);

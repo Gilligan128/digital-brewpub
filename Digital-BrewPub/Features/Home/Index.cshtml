@@ -1,10 +1,29 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Find a Brewery";
 }
+@using Digital.BrewPub.Features.Brewery;
+@model BrewerySearchRequest
 
-<div class="row"></div>
-<div class="row ">
-    <div class="col-md-12">
-            <a class="btn btn-default btn-lg" asp-controller="Brewery" asp-action="Search">Detroit Breweries!</a>
-    </div>
+<div class="jumbotron">
+   <div class="container">
+       <div class="row">
+           <h2>Find a Brewery Near You</h2>
+       </div>
+       <div class="row">
+           <form asp-controller="Brewery" asp-action="Search" method="get" class="form-horizontal">
+               <form-group>
+                   <label asp-for="Type" />
+                   <select asp-for="Type" asp-items="Html.GetEnumSelectList<BrewerySearchRequest.SearchType>()" class="form-control"></select>
+               </form-group>
+               <form-group>
+                   <label asp-for="Term" />
+                   <input asp-for="Term" class="form-control" />
+               </form-group>
+               <input type="submit" class="btn btn-lg btn-default btn-success" value="Find" />
+           </form>
+       </div>
+       <div class="row">
+           <a href="http://www.brewerydb.com/add" >Can't find a brewery?</a>
+       </div>
+   </div>
 </div>
